@@ -1,9 +1,10 @@
-import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
-import { healthRoutes } from "./routes/health";
-import { apiRoutes } from "./routes/api";
+import { Elysia } from "elysia";
+
 import { config } from "./config";
+import { apiRoutes } from "./routes/api";
+import { healthRoutes } from "./routes/health";
 
 const app = new Elysia()
   .use(
