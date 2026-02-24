@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create source archives
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+          # Create tar.gz archive of the templates directory
+          tar -czf templates.tar.gz -C templates .
+
+          # Create zip archive of the templates directory
+          cd templates && zip -r ../templates.zip . && cd ..
+
+          # Also create package-specific archives for kata's asset discovery
+          tar -czf layer_types.tar.gz -C templates/plugins/layer_types .
+          tar -czf layer_actions.tar.gz -C templates/plugins/layer_actions .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            templates.tar.gz
+            templates.zip
+            layer_types.tar.gz
+            layer_actions.tar.gz

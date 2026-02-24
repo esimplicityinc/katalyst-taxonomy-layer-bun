@@ -1,0 +1,205 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-install
+  labels:
+    layerType: app-bun
+spec:
+  description: Install Bun dependencies.
+  type: shell
+  when: pre
+  run: just app-bun-install
+  timeoutSeconds: 120
+  tags:
+    - install
+    - dependencies
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-dev
+  labels:
+    layerType: app-bun
+spec:
+  description: Start the Bun development server with hot reload.
+  type: shell
+  when: main
+  run: just app-bun-dev
+  timeoutSeconds: 0
+  tags:
+    - dev
+    - serve
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-build
+  labels:
+    layerType: app-bun
+spec:
+  description: Build the Bun application for production.
+  type: shell
+  when: pre
+  run: just app-bun-build
+  timeoutSeconds: 300
+  tags:
+    - build
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-test
+  labels:
+    layerType: app-bun
+spec:
+  description: Run tests using Bun's built-in test runner.
+  type: shell
+  when: pre
+  run: just app-bun-test
+  timeoutSeconds: 300
+  tags:
+    - test
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-typecheck
+  labels:
+    layerType: app-bun
+spec:
+  description: Run TypeScript type checking.
+  type: shell
+  when: pre
+  run: just app-bun-typecheck
+  timeoutSeconds: 120
+  tags:
+    - typecheck
+    - typescript
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-lint
+  labels:
+    layerType: app-bun
+spec:
+  description: Lint source code with Biome.
+  type: shell
+  when: pre
+  run: just app-bun-lint
+  timeoutSeconds: 120
+  tags:
+    - lint
+    - biome
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-fmt
+  labels:
+    layerType: app-bun
+spec:
+  description: Format and type check source code.
+  type: shell
+  when: pre
+  run: just app-bun-fmt
+  timeoutSeconds: 120
+  tags:
+    - format
+    - biome
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-build-image
+  labels:
+    layerType: app-bun
+spec:
+  description: Build Docker image for the Bun application.
+  type: shell
+  when: pre
+  run: just app-bun-build-image
+  timeoutSeconds: 1200
+  tags:
+    - build
+    - container
+    - docker
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-push-image
+  labels:
+    layerType: app-bun
+spec:
+  description: Push Docker image to the configured container registry.
+  type: shell
+  when: main
+  run: just app-bun-push-image
+  timeoutSeconds: 600
+  tags:
+    - push
+    - container
+    - registry
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-scan-image
+  labels:
+    layerType: app-bun
+spec:
+  description: Scan Docker image with Trivy for security vulnerabilities.
+  type: shell
+  when: post
+  run: just app-bun-scan-image
+  timeoutSeconds: 300
+  tags:
+    - security
+    - scan
+    - trivy
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-security
+  labels:
+    layerType: app-bun
+spec:
+  description: Run Semgrep security scan on source code.
+  type: shell
+  when: post
+  run: just app-bun-security
+  timeoutSeconds: 300
+  tags:
+    - security
+    - scan
+    - semgrep
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-ci
+  labels:
+    layerType: app-bun
+spec:
+  description: Run the full CI pipeline (install, typecheck, lint, test, build).
+  type: shell
+  when: main
+  run: just app-bun-ci
+  timeoutSeconds: 600
+  tags:
+    - ci
+    - pipeline
+    - bun

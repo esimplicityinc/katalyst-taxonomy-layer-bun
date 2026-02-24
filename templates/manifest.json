@@ -1,0 +1,15 @@
+{
+  "name": "katalyst-taxonomy-layer-bun",
+  "version": "0.1.0",
+  "description": "Katalyst Taxonomy layer type for Bun + TypeScript + Elysia applications",
+  "packages": [
+    {
+      "name": "layer_types",
+      "description": "Bun application layer type template"
+    },
+    {
+      "name": "layer_actions",
+      "description": "Action definitions for app-bun layer type"
+    }
+  ]
+}

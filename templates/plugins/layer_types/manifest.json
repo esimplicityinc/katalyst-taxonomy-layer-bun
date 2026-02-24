@@ -1,0 +1,11 @@
+{
+  "name": "layer_types",
+  "version": "0.1.0",
+  "description": "Bun application layer type template (Bun + TypeScript + Elysia)",
+  "canonical": [
+    "app-bun"
+  ],
+  "templates": [
+    "app-bun"
+  ]
+}

@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Tests
+**/__tests__/
+**/*.test.ts
+**/*.spec.ts
+coverage/
+
+# Development files
+.env.local
+.env.development
+.env*.local
+*.log
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js / Bun
+node_modules/
+
+# Build artifacts
+dist/
+*.tsbuildinfo
+
+# Taxonomy files (not needed in container)
+layer.yaml
+taxonomy.yaml
+environment.yaml
+
+# Docker files (avoid recursion)
+Dockerfile*
+docker-compose*.yaml
+.dockerignore

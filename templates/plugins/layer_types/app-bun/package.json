@@ -1,0 +1,28 @@
+{
+  "name": "{{ layer_name }}",
+  "version": "0.1.0",
+  "description": "{{ description }}",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build ./src/index.ts --target=bun --outdir=./dist --minify",
+    "typecheck": "tsc --noEmit",
+    "lint": "bunx @biomejs/biome check ./src",
+    "lint:fix": "bunx @biomejs/biome check --write ./src",
+    "format": "bunx @biomejs/biome format --write ./src",
+    "check": "bunx @biomejs/biome check ./src && tsc --noEmit",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage"
+  },
+  "dependencies": {
+    "elysia": "^1.2.0",
+    "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/swagger": "^1.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/bun": "latest",
+    "typescript": "^5.7.0"
+  }
+}

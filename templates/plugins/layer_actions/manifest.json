@@ -1,0 +1,8 @@
+{
+  "name": "layer_actions",
+  "version": "0.1.0",
+  "description": "Action definitions for app-bun layer type",
+  "canonical": [
+    "app-bun"
+  ]
+}

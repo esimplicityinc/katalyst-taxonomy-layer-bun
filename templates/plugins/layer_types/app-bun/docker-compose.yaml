@@ -1,0 +1,59 @@
+# Docker Compose for local development
+# Layer: {{ system_name }}/{{ stack_name }}/{{ layer_name }}
+
+services:
+  "{{ layer_name }}":
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: "{{ layer_name }}:local"
+    container_name: "{{ layer_name }}"
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
+      - PORT=3000
+      - HOST=0.0.0.0
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "bun", "--eval", "fetch('http://localhost:3000/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - "{{ layer_name }}-network"
+
+  "{{ layer_name }}-dev":
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev-deps
+    image: "{{ layer_name }}:dev"
+    container_name: "{{ layer_name }}-dev"
+    command: ["bun", "run", "--watch", "src/index.ts"]
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - PORT=3000
+      - HOST=0.0.0.0
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src:ro
+      - ./package.json:/app/package.json:ro
+      - ./tsconfig.json:/app/tsconfig.json:ro
+    networks:
+      - "{{ layer_name }}-network"
+    profiles:
+      - dev
+
+networks:
+  "{{ layer_name }}-network":
+    driver: bridge

@@ -1,0 +1,11 @@
+# Bun configuration for {{ layer_name }}
+# https://bun.sh/docs/runtime/bunfig
+
+[install]
+# Use frozen lockfile in CI
+# frozen = true
+
+[test]
+# Test configuration
+coverage = false
+coverageDir = "coverage"
