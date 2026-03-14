@@ -18,6 +18,24 @@ spec:
 apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
 kind: Action
 metadata:
+  name: app-bun-install-frozen
+  labels:
+    layerType: app-bun
+spec:
+  description: Install Bun dependencies from frozen lockfile (CI-safe).
+  type: shell
+  when: pre
+  run: just app-bun-install-frozen
+  timeoutSeconds: 120
+  tags:
+    - install
+    - dependencies
+    - ci
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
   name: app-bun-dev
   labels:
     layerType: app-bun
@@ -29,6 +47,23 @@ spec:
   timeoutSeconds: 0
   tags:
     - dev
+    - serve
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-start
+  labels:
+    layerType: app-bun
+spec:
+  description: Start the Bun application in production mode.
+  type: shell
+  when: main
+  run: just app-bun-start
+  timeoutSeconds: 0
+  tags:
+    - start
     - serve
     - bun
 ---
@@ -62,6 +97,23 @@ spec:
   timeoutSeconds: 300
   tags:
     - test
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-test-coverage
+  labels:
+    layerType: app-bun
+spec:
+  description: Run tests with code coverage reporting.
+  type: shell
+  when: pre
+  run: just app-bun-test-coverage
+  timeoutSeconds: 300
+  tags:
+    - test
+    - coverage
     - bun
 ---
 apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
@@ -101,6 +153,23 @@ spec:
 apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
 kind: Action
 metadata:
+  name: app-bun-lint-fix
+  labels:
+    layerType: app-bun
+spec:
+  description: Lint source code and auto-fix issues.
+  type: shell
+  when: pre
+  run: just app-bun-lint-fix
+  timeoutSeconds: 120
+  tags:
+    - lint
+    - fix
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
   name: app-bun-fmt
   labels:
     layerType: app-bun
@@ -113,6 +182,39 @@ spec:
   tags:
     - format
     - biome
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-format
+  labels:
+    layerType: app-bun
+spec:
+  description: Format source code.
+  type: shell
+  when: pre
+  run: just app-bun-format
+  timeoutSeconds: 120
+  tags:
+    - format
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-check
+  labels:
+    layerType: app-bun
+spec:
+  description: Run all code quality checks (typecheck, lint, format).
+  type: shell
+  when: pre
+  run: just app-bun-check
+  timeoutSeconds: 300
+  tags:
+    - check
+    - quality
     - bun
 ---
 apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
@@ -190,6 +292,25 @@ spec:
 apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
 kind: Action
 metadata:
+  name: app-bun-security-full
+  labels:
+    layerType: app-bun
+spec:
+  description: Run comprehensive security scan with all Semgrep rulesets.
+  type: shell
+  when: post
+  run: just app-bun-security-full
+  timeoutSeconds: 600
+  tags:
+    - security
+    - scan
+    - semgrep
+    - comprehensive
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
   name: app-bun-ci
   labels:
     layerType: app-bun
@@ -202,4 +323,125 @@ spec:
   tags:
     - ci
     - pipeline
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-ci-security
+  labels:
+    layerType: app-bun
+spec:
+  description: Run the CI security pipeline (security scan + image scan).
+  type: shell
+  when: main
+  run: just app-bun-ci-security
+  timeoutSeconds: 600
+  tags:
+    - ci
+    - security
+    - pipeline
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-compose-up
+  labels:
+    layerType: app-bun
+spec:
+  description: Start Docker Compose services for the application.
+  type: shell
+  when: main
+  run: just app-bun-compose-up
+  timeoutSeconds: 300
+  tags:
+    - compose
+    - docker
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-compose-down
+  labels:
+    layerType: app-bun
+spec:
+  description: Stop and remove Docker Compose services.
+  type: shell
+  when: post
+  run: just app-bun-compose-down
+  timeoutSeconds: 120
+  tags:
+    - compose
+    - docker
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-compose-logs
+  labels:
+    layerType: app-bun
+spec:
+  description: Tail Docker Compose service logs.
+  type: shell
+  when: main
+  run: just app-bun-compose-logs
+  timeoutSeconds: 0
+  tags:
+    - compose
+    - logs
+    - docker
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-compose-ps
+  labels:
+    layerType: app-bun
+spec:
+  description: List running Docker Compose services.
+  type: shell
+  when: main
+  run: just app-bun-compose-ps
+  timeoutSeconds: 30
+  tags:
+    - compose
+    - status
+    - docker
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-clean
+  labels:
+    layerType: app-bun
+spec:
+  description: Remove build artifacts, caches, and node_modules.
+  type: shell
+  when: post
+  run: just app-bun-clean
+  timeoutSeconds: 60
+  tags:
+    - clean
+    - bun
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-bun-version
+  labels:
+    layerType: app-bun
+spec:
+  description: Display Bun and application version information.
+  type: shell
+  when: main
+  run: just app-bun-version
+  timeoutSeconds: 10
+  tags:
+    - version
+    - info
     - bun
