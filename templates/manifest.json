@@ -1,6 +1,6 @@
 {
   "name": "katalyst-taxonomy-layer-bun",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Katalyst Taxonomy layer type for Bun + TypeScript + Elysia applications",
   "packages": [
     {
@@ -10,6 +10,14 @@
     {
       "name": "layer_actions",
       "description": "Action definitions for app-bun layer type"
+    },
+    {
+      "name": "just",
+      "description": "Just command runner recipes for app-bun layers and supporting tools"
+    },
+    {
+      "name": "cicd",
+      "description": "CI/CD workflow and job templates for app-bun layers in GitHub Actions"
     }
   ]
 }

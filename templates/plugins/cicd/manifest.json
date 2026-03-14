@@ -1,0 +1,13 @@
+{
+  "name": "cicd",
+  "version": "0.2.0",
+  "description": "CI/CD workflow and job templates for app-bun layers in GitHub Actions",
+  "templates": [
+    "stages.yaml",
+    "workflows.yaml",
+    "jobs.yaml"
+  ],
+  "layerTypes": [
+    "app-bun"
+  ]
+}

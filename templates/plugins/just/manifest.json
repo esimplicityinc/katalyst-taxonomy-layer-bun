@@ -1,0 +1,14 @@
+{
+  "name": "just",
+  "version": "0.2.0",
+  "description": "Just command runner recipes for app-bun layer type and supporting tools",
+  "templates": [
+    "common.just",
+    "layerTypes/app-bun.just",
+    "tools/bun.just",
+    "tools/docker.just",
+    "tools/semgrep.just",
+    "tools/trivy.just",
+    "tools/kubectl.just"
+  ]
+}

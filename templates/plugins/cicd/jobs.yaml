@@ -1,0 +1,125 @@
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-app-bun-layer-ci
+spec:
+  description: CI stage job for App Bun layers in GitHub Actions.
+  stage: ci
+  layerType: app-bun
+  template:
+    path: templates/jobs/app-bun-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: app_bun_layer_ci
+      job_name: "🥟 App Bun Layer :: CI"
+      workflow_path: "./.github/workflows/.template-app-bun-ci.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-app-bun-layer-cd
+spec:
+  description: CD stage job for App Bun layers in GitHub Actions.
+  stage: cd
+  layerType: app-bun
+  template:
+    path: templates/jobs/app-bun-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: app_bun_layer_cd
+      job_name: "🥟 App Bun Layer :: CD"
+      workflow_path: "./.github/workflows/.template-app-bun-cd.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-app-bun-layer-post
+spec:
+  description: Post-deployment job for App Bun layers in GitHub Actions.
+  stage: post
+  layerType: app-bun
+  template:
+    path: templates/jobs/app-bun-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: app_bun_layer_post
+      job_name: "🥟 App Bun Layer :: POST"
+      workflow_path: "./.github/workflows/.template-app-bun-post.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-app-bun-security-ci
+spec:
+  description: SAST security scan (Semgrep) for App Bun layers in GitHub Actions.
+  stage: ci
+  layerType: app-bun
+  template:
+    path: templates/jobs/security-scan.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+    defaults:
+      job_id: app_security_scan
+      job_name: "🔒 App Security :: Semgrep"
+      workflow_path: "./.github/workflows/.template-app-bun-security.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-docker-image-scan-ci
+spec:
+  description: Docker image vulnerability scan (Trivy) in GitHub Actions.
+  stage: ci
+  layerType: app-bun
+  template:
+    path: templates/jobs/security-scan.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+    defaults:
+      job_id: docker_image_scan
+      job_name: "🐳 Docker Image :: Trivy"
+      workflow_path: "./.github/workflows/.template-docker-scan.yaml"

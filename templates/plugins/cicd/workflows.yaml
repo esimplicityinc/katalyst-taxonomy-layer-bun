@@ -1,0 +1,159 @@
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: WorkflowTemplate
+metadata:
+  name: gha-ci
+spec:
+  description: "CI pipeline: typecheck, lint, format, build, tests."
+  parameters:
+    system:
+      description: System name from taxonomy.
+      type: string
+      required: true
+    sub_system:
+      description: Subsystem name from taxonomy.
+      type: string
+      required: true
+    stack:
+      description: Stack name from taxonomy.
+      type: string
+      required: true
+    environment:
+      description: Target environment.
+      type: string
+      required: true
+  template:
+    path: templates/gha-ci.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: false
+  jobs:
+    - name: app-bun-ci
+      templateRef: gha-app-bun-layer-ci
+      with:
+        environment: dev
+    - name: app-security-scan
+      templateRef: gha-app-bun-security-ci
+      with:
+        environment: dev
+    - name: docker-image-scan
+      templateRef: gha-docker-image-scan-ci
+      with:
+        environment: dev
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: WorkflowTemplate
+metadata:
+  name: gha-dev
+spec:
+  description: "Dev CD pipeline: build image, push to ECR, health check."
+  parameters:
+    system:
+      description: System name from taxonomy.
+      type: string
+      required: true
+    sub_system:
+      description: Subsystem name from taxonomy.
+      type: string
+      required: true
+    stack:
+      description: Stack name from taxonomy.
+      type: string
+      required: true
+    environment:
+      description: Target environment.
+      type: string
+      required: true
+    aws_role_arn:
+      description: AWS IAM role ARN for OIDC auth.
+      type: string
+      required: true
+    aws_region:
+      description: AWS region.
+      type: string
+      required: true
+    health_url:
+      description: URL to health-check after deploy.
+      type: string
+      required: false
+    eks_cluster_arn:
+      description: ARN of the EKS cluster for kubectl access.
+      type: string
+      required: false
+    argo_app:
+      description: ArgoCD Application name to sync and wait for.
+      type: string
+      required: false
+  template:
+    path: templates/gha-dev.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: false
+  jobs:
+    - name: app-bun-cd
+      templateRef: gha-app-bun-layer-cd
+      with:
+        environment: dev
+    - name: app-bun-post
+      templateRef: gha-app-bun-layer-post
+      needs: [app-bun-cd]
+      with:
+        environment: dev
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: WorkflowTemplate
+metadata:
+  name: gha-staging
+spec:
+  description: "Staging promotion pipeline: build image, push to ECR, health check."
+  parameters:
+    system:
+      description: System name from taxonomy.
+      type: string
+      required: true
+    sub_system:
+      description: Subsystem name from taxonomy.
+      type: string
+      required: true
+    stack:
+      description: Stack name from taxonomy.
+      type: string
+      required: true
+    environment:
+      description: Target environment.
+      type: string
+      required: true
+    aws_role_arn:
+      description: AWS IAM role ARN for OIDC auth.
+      type: string
+      required: true
+    aws_region:
+      description: AWS region.
+      type: string
+      required: true
+    health_url:
+      description: URL to health-check after deploy.
+      type: string
+      required: false
+    eks_cluster_arn:
+      description: ARN of the EKS cluster for kubectl access.
+      type: string
+      required: false
+    argo_app:
+      description: ArgoCD Application name to sync and wait for.
+      type: string
+      required: false
+  template:
+    path: templates/gha-staging.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: false
+  jobs:
+    - name: app-bun-cd
+      templateRef: gha-app-bun-layer-cd
+      with:
+        environment: staging
+    - name: app-bun-post
+      templateRef: gha-app-bun-layer-post
+      needs: [app-bun-cd]
+      with:
+        environment: staging
